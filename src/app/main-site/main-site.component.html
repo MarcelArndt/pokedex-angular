@@ -1,0 +1,12 @@
+<div class="main-wrapper">
+
+    <div class="content-wrapper">
+        <app-header></app-header>
+        <div class="card-container">
+            <ng-container *ngFor="let card of this.api.pokemonOverviewList$ | async; trackBy: trackByFlag">
+                <app-card [details]="card" [id]="card.id" *ngIf="card.isReadyToRender"></app-card>
+            </ng-container>
+
+        </div>
+    </div>
+</div>

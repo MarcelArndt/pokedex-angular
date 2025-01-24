@@ -1,0 +1,29 @@
+.main-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 1920px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card-container {
+    width: 100%;
+    max-width: 1920px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+app-card {
+    width: 290px;
+    height: 110px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 32px 12px;
+}

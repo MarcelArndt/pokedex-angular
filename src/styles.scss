@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'openSans';
+    font-weight: 100 1000;
+    src: url('./../public/fonts/OpenSans-VariableFont_wdth\,wght.ttf') format('truetype');
+}
+
+
+* {
+    width: 100%;
+
+}
+
+:root {
+    --background: #d0e1ef;
+    --font-color: #628099;
+    --logo-color: #DF2323;
+    --contrast: #fff;
+    --shadow: #719cbf;
+}
+
+
+body {
+    margin: 0 0;
+    background: url('./../public/assets/background.png');
+    background-size: 750px;
+    background-color: var(--background);
+    font-family: 'openSans';
+    font-weight: 500;
+}

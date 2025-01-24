@@ -1,0 +1,10 @@
+<div class="card-wrapper" [style.background]="getGradient()">
+    <div class="inner-wrapper">
+        <h4>{{this.details.names[5].name}}</h4>
+        <img class="sprite" [src]="this.details.sprites.front_default">
+        <div class="details-container">
+            <p class="id-number" [style.color]="getKeyColor()">#{{this.idString}}</p>
+            <p class="type" *ngFor="let type of this.details.types">{{type.type.name}}</p>
+        </div>
+    </div>
+</div>
