@@ -6,5 +6,18 @@
             <p class="id-number" [style.color]="getKeyColor()">#{{this.idString}}</p>
             <p class="type" *ngFor="let type of this.details.types">{{type.type.name}}</p>
         </div>
+        <nav class="submenu-container">
+            <ul>
+                <li (click)="changeTeam()">
+                    <icon [style.color]=" getIsTeam()">how_to_reg</icon>
+                </li>
+                <li (click)="changeFavorite()">
+                    <icon [style.color]=" getIsFavorite()">star</icon>
+                </li>
+                <li>
+                    <icon>headphones</icon>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>

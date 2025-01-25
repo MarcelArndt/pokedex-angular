@@ -26,4 +26,12 @@ app-card {
     display: flex;
     flex-wrap: wrap;
     margin: 32px 12px;
+    scale: (100%);
+    transition: scale 0.25s ease-out;
+
+    &:hover {
+        cursor: pointer;
+        scale: (105%);
+        transition: scale 0.25s ease-out;
+    }
 }

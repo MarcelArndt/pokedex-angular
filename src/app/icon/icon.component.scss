@@ -1,0 +1,14 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Material Symbols';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../../../public/fonts/MaterialIcons-Regular.ttf') format('truetype');
+}
+
+span {
+    font-family: 'Material Symbols';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

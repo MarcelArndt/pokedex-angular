@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { PokeApiLoaderService } from '../service/poke-api-loader.service';
 import { CommonModule } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'app-card',
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
@@ -60,6 +61,24 @@ export class CardComponent {
 
   getKeyColor(): string {
     return `${this.secondColor}`;
+  }
+
+  getIsTeam(): string {
+    const color = this.details.isIsTeam ? '#E40004' : '#fff';
+    return color;
+  }
+
+  getIsFavorite(): string {
+    const color = this.details.isIsFavorite ? '#FF8800' : '#fff';
+    return color;
+  }
+
+  changeTeam() {
+    this.details.isIsTeam = !this.details.isIsTeam;
+  }
+
+  changeFavorite() {
+    this.details.isIsFavorite = !this.details.isIsFavorite;
   }
 
 }

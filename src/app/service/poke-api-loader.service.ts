@@ -11,6 +11,10 @@ export class PokeApiLoaderService {
   }
 
   public pokemonOverviewList$ = new BehaviorSubject<any[]>([]);
+  pokeminInTeam?: string[];
+  pokeminInFavorite?: string[];
+  tempFromLocalStorage?: string = '';
+
 
   async pullOverview(maxAmount: number = 1011) {
     try {
@@ -21,27 +25,39 @@ export class PokeApiLoaderService {
       pokedata.results.forEach((pokemon: any, id: number) => {
         pokemon.id = id + 1;
         pokemon.isReadyToRender = false;
+        pokemon.isTeam = false;
+        pokemon.isFavorite = false;
         currentListOfPokemons.push(pokemon);
         this.pokemonOverviewList$.next([...currentListOfPokemons]);
       });
+      this.loadFromLocalStorage();
+      //this.preloadKnownPokemon();
     } catch (error) {
       console.error(error);
     }
   }
 
-
   async getPokemonData(id: number) {
+    try {
+      const pokedata = await this.getResponsePackages(id);
+      const currentListOfPokemons = this.pokemonOverviewList$.value;
+      currentListOfPokemons[id - 1] = { ...pokedata };
+      currentListOfPokemons[id - 1].isReadyToRender = true;
+      this.pokemonOverviewList$.next([...currentListOfPokemons]);
+      return pokedata;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getResponsePackages(id: number = 0) {
     try {
       const responseOne = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
       const responseTwo = await fetch(`https://pokeapi.co/api/v2/pokemon-species//${id}/`);
       const datasetOne = await responseOne.json();
       const datasetTwo = await responseTwo.json();
-      const currentListOfPokemons = this.pokemonOverviewList$.value;
-      const pokedata = { ...datasetOne, ...datasetTwo };
-      currentListOfPokemons[id - 1] = { ...pokedata };
-      currentListOfPokemons[id - 1].isReadyToRender = true;
-      this.pokemonOverviewList$.next([...currentListOfPokemons]);
-      return pokedata;
+      const pokedataPackages = { ...datasetOne, ...datasetTwo };
+      return pokedataPackages
     } catch (error) {
       console.error(error);
     }
@@ -61,6 +77,32 @@ export class PokeApiLoaderService {
   getPokemonOverviewList(): Observable<any[]> {
     return this.pokemonOverviewList$.asObservable();
   }
+
+
+  saveInLocalStroage(team: string[] = this.pokeminInTeam || [], favorite: string[] = this.pokeminInTeam || []) {
+    const atrribute = { team: team, favorite: favorite };
+    const obj = JSON.stringify(atrribute);
+    localStorage.setItem("PokemonDex", obj);
+  }
+
+  loadFromLocalStorage() {
+    if (this.checkForStroage()) {
+      const currentStroage = this.tempFromLocalStorage || '[],[]';
+      let list = JSON.parse(currentStroage);
+      this.pokeminInTeam = list[0];
+      this.pokeminInFavorite = list[1];
+    }
+  }
+
+  checkForStroage(): boolean {
+    this.tempFromLocalStorage = localStorage.getItem("PokemonDex") || '';
+    if (this.tempFromLocalStorage.length == 0) {
+      this.saveInLocalStroage([], []);
+    }
+    return true;
+  }
+
+
 
 
 
