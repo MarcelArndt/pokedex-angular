@@ -52,6 +52,7 @@ export class PokeApiLoaderService {
       const pokedataPackages = { ...datasetOne, ...datasetTwo };
       pokedataPackages.isIsFavorite = this.checkIdInArray(this.pokeminInFavorite, pokedataPackages.id.toString());
       pokedataPackages.isIsTeam = this.checkIdInArray(this.pokeminInTeam, pokedataPackages.id.toString());
+      //console.log(pokedataPackages);
       return pokedataPackages
     } catch (error) {
       console.error(error);
