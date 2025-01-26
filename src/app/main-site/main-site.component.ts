@@ -61,12 +61,14 @@ export class MainSiteComponent {
 
   applyfilter(listOfTypes: type[]): boolean {
     if (this.filter == 'all' || this.filter == '') return true;
-    for (let i = 0; i < Object.keys(listOfTypes).length; i++) {
-      if (this.filter == listOfTypes[i].type?.name) {
-        return true
+
+    if (listOfTypes) {
+      for (let i = 0; i < listOfTypes.length; i++) {
+        if (this.filter == listOfTypes[i].type?.name) {
+          return true
+        }
       }
     }
-
     return false;
   }
 
