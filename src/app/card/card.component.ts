@@ -75,10 +75,19 @@ export class CardComponent {
 
   changeTeam() {
     this.details.isIsTeam = !this.details.isIsTeam;
+    this.api.switchPokemonHandler(this.id.toString(), 'team', this.details.isIsTeam);
   }
 
   changeFavorite() {
     this.details.isIsFavorite = !this.details.isIsFavorite;
+    this.api.switchPokemonHandler(this.id.toString(), 'favorite', this.details.isIsFavorite);
+  }
+
+  playSound() {
+    const audio = new Audio(this.details.cries.latest);
+    audio.volume = 0.25;
+    audio.currentTime = 0;
+    audio.play();
   }
 
 }

@@ -142,5 +142,8 @@ h4 {
         }
     }
 
+    .shadow {
+        filter: drop-shadow(1px 1px 0px var(--shadow));
+    }
 
 }

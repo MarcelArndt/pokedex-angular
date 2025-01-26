@@ -6,18 +6,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class PokeApiLoaderService {
 
-  constructor() {
-
-  }
+  constructor() { }
 
   public pokemonOverviewList$ = new BehaviorSubject<any[]>([]);
-  pokeminInTeam?: string[];
-  pokeminInFavorite?: string[];
-  tempFromLocalStorage?: string = '';
+  public pokeminInTeam: string[] = [];
+  public pokeminInFavorite: string[] = [];
 
-
+  ////  --- manage Api ---   ///
   async pullOverview(maxAmount: number = 1011) {
     try {
+      this.loadFromLocalStorage();
       const url = `https://pokeapi.co/api/v2/pokemon?limit=${maxAmount}&offset=0`;
       const response = await fetch(url);
       const pokedata = await response.json();
@@ -25,13 +23,9 @@ export class PokeApiLoaderService {
       pokedata.results.forEach((pokemon: any, id: number) => {
         pokemon.id = id + 1;
         pokemon.isReadyToRender = false;
-        pokemon.isTeam = false;
-        pokemon.isFavorite = false;
         currentListOfPokemons.push(pokemon);
         this.pokemonOverviewList$.next([...currentListOfPokemons]);
       });
-      this.loadFromLocalStorage();
-      //this.preloadKnownPokemon();
     } catch (error) {
       console.error(error);
     }
@@ -43,7 +37,6 @@ export class PokeApiLoaderService {
       const currentListOfPokemons = this.pokemonOverviewList$.value;
       currentListOfPokemons[id - 1] = { ...pokedata };
       currentListOfPokemons[id - 1].isReadyToRender = true;
-      this.pokemonOverviewList$.next([...currentListOfPokemons]);
       return pokedata;
     } catch (error) {
       console.error(error);
@@ -57,6 +50,8 @@ export class PokeApiLoaderService {
       const datasetOne = await responseOne.json();
       const datasetTwo = await responseTwo.json();
       const pokedataPackages = { ...datasetOne, ...datasetTwo };
+      pokedataPackages.isIsFavorite = this.checkIdInArray(this.pokeminInFavorite, pokedataPackages.id.toString());
+      pokedataPackages.isIsTeam = this.checkIdInArray(this.pokeminInTeam, pokedataPackages.id.toString());
       return pokedataPackages
     } catch (error) {
       console.error(error);
@@ -78,32 +73,55 @@ export class PokeApiLoaderService {
     return this.pokemonOverviewList$.asObservable();
   }
 
+  checkIdInArray(array: string[], id: string) {
+    return array.includes(id);
+  }
 
-  saveInLocalStroage(team: string[] = this.pokeminInTeam || [], favorite: string[] = this.pokeminInTeam || []) {
+  ////  --- manage LocalStorage ---   ///
+
+  saveInLocalStroage(team: string[] = this.pokeminInTeam || [], favorite: string[] = this.pokeminInFavorite || []) {
     const atrribute = { team: team, favorite: favorite };
     const obj = JSON.stringify(atrribute);
     localStorage.setItem("PokemonDex", obj);
   }
 
   loadFromLocalStorage() {
-    if (this.checkForStroage()) {
-      const currentStroage = this.tempFromLocalStorage || '[],[]';
-      let list = JSON.parse(currentStroage);
-      this.pokeminInTeam = list[0];
-      this.pokeminInFavorite = list[1];
+    let currentStroage = localStorage.getItem("PokemonDex");
+    if (!currentStroage || currentStroage.length == 0) {
+      this.saveInLocalStroage();
+      return;
+    }
+    let list = JSON.parse(currentStroage);
+    this.pokeminInTeam = list.team;
+    this.pokeminInFavorite = list.favorite;
+  }
+
+  ////  --- manage personal categories ---   ///
+
+  switchPokemonHandler(id: string, categorie: string = 'team', status: boolean) {
+    if (status) {
+      this.addPokemonToList(id, categorie);
+    } else {
+      this.removePokemonfromList(id, categorie);
+    }
+    this.saveInLocalStroage();
+  }
+
+  addPokemonToList(id: string, categorie: string) {
+    switch (categorie) {
+      case 'team': if (!this.pokeminInTeam.includes(id)) { this.pokeminInTeam.push(id); }; break;
+      case 'favorite': if (!this.pokeminInFavorite.includes(id)) { this.pokeminInFavorite.push(id); }; break;
+      default: console.error('ERROR: No Categorie Match'); break;
     }
   }
 
-  checkForStroage(): boolean {
-    this.tempFromLocalStorage = localStorage.getItem("PokemonDex") || '';
-    if (this.tempFromLocalStorage.length == 0) {
-      this.saveInLocalStroage([], []);
+  removePokemonfromList(id: string, categorie: string) {
+    switch (categorie) {
+      case 'team': if (this.pokeminInTeam.includes(id)) { this.pokeminInTeam.splice(this.pokeminInTeam.indexOf(id), 1) }; break;
+      case 'favorite': if (this.pokeminInFavorite.includes(id)) { this.pokeminInFavorite.splice(this.pokeminInFavorite.indexOf(id), 1) }; break;
+      default: console.error('ERROR: No Categorie Match'); break;
     }
-    return true;
   }
-
-
-
 
 
 }
