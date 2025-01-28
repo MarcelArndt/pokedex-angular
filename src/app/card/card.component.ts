@@ -29,6 +29,7 @@ export class CardComponent {
       string = '0' + string;
     }
     this.idString = string;
+    this.details.idString = string;
   }
 
   pickColorByType() {
@@ -56,6 +57,8 @@ export class CardComponent {
   }
 
   getGradient(): string {
+    this.details.firstColor = this.firstColor;
+    this.details.secondColor = this.secondColor;
     return `linear-gradient(-200deg, ${this.firstColor}, ${this.secondColor})`;
   }
 
@@ -88,6 +91,10 @@ export class CardComponent {
     audio.volume = 0.25;
     audio.currentTime = 0;
     audio.play();
+  }
+
+  stopPropagation(event: Event) {
+    event.stopPropagation();
   }
 
 }

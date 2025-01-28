@@ -6,7 +6,7 @@
             <p class="id-number" [style.color]="getKeyColor()">#{{this.idString}}</p>
             <p class="type" *ngFor="let type of this.details.types">{{type.type.name}}</p>
         </div>
-        <nav class="submenu-container">
+        <nav (click)="stopPropagation($event)" class="submenu-container">
             <ul>
                 <li (click)="changeTeam()">
                     <svg class="shadow" version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 906"

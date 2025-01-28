@@ -3,6 +3,7 @@ import { HeaderComponent } from '../header/header.component';
 import { PokeApiLoaderService } from '../service/poke-api-loader.service';
 import { CardComponent } from '../card/card.component';
 import { CommonModule } from '@angular/common';
+import { LightboxComponent } from '../lightbox/lightbox.component';
 
 
 
@@ -17,7 +18,7 @@ interface type {
 
 @Component({
   selector: 'app-main-site',
-  imports: [HeaderComponent, CardComponent, CommonModule],
+  imports: [HeaderComponent, CardComponent, CommonModule, LightboxComponent],
   templateUrl: './main-site.component.html',
   styleUrl: './main-site.component.scss'
 })
@@ -29,13 +30,12 @@ export class MainSiteComponent {
   addAmountOfRenderMax: number = 10;
   renderMaxCooldownDate: number = new Date().getTime();
   renderMaxCooldowntime: number = 250;
-  filter: string = 'normal'
+  filter: string = 'all'
 
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (!this.hasScrollbar()) {
       this.renderMax += this.addAmountOfRenderMax;
-      console.log('not enough')
       return
     }
     const currentScrollScore = window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
@@ -61,7 +61,6 @@ export class MainSiteComponent {
 
   applyfilter(listOfTypes: type[]): boolean {
     if (this.filter == 'all' || this.filter == '') return true;
-
     if (listOfTypes) {
       for (let i = 0; i < listOfTypes.length; i++) {
         if (this.filter == listOfTypes[i].type?.name) {

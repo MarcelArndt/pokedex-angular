@@ -1,3 +1,5 @@
+<app-lightbox #lightbox></app-lightbox>
+
 <div class="main-wrapper">
 
     <div class="content-wrapper">
@@ -5,7 +7,7 @@
         <div class="card-container">
             <ng-container
                 *ngFor="let card of this.api.pokemonOverviewList$ | async; trackBy: trackByFlag; let i = index">
-                <app-card [details]="card" [id]="card.id"
+                <app-card (click)="lightbox.openLightbox(card)" [details]="card" [id]="card.id"
                     *ngIf="card.isReadyToRender && i + 1 <= renderMax && filter == 'all' || this.applyfilter(card.types) && filter != 'all'"></app-card>
             </ng-container>
 

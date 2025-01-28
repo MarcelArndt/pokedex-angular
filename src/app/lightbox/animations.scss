@@ -1,0 +1,70 @@
+* {
+    --animation-duration: 0.5s;
+}
+
+.init {
+    opacity: 0;
+    display: none;
+}
+
+.openLightbox {
+    display: flex;
+    animation: openLightbox ease-in-out forwards;
+    animation-duration: var(--animation-duration);
+}
+
+.closeLightbox {
+    animation: closeLightbox ease-in-out forwards;
+    animation-duration: var(--animation-duration);
+}
+
+@keyframes openLightbox {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+
+    }
+}
+
+@keyframes closeLightbox {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        display: none;
+        opacity: 0;
+    }
+}
+
+
+.closeInnerBox {
+    animation: closeBox 0.5s ease-in-out forwards;
+}
+
+@keyframes closeBox {
+    from {
+        transform: scale(100%);
+    }
+
+    to {
+        transform: scale(20%);
+    }
+}
+
+.openInnerBox {
+    animation: openBox 0.5s ease-in-out forwards;
+}
+
+@keyframes openBox {
+    from {
+        transform: scale(20%);
+    }
+
+    to {
+        transform: scale(100%);
+    }
+}

@@ -59,7 +59,8 @@ export class PokeApiLoaderService {
     }
   }
 
-  async recursivelyPokeloader(timer: number = 1000, id: number = 0) {
+  async recursivelyPokeloader(timer: number = 1000, id: number = 0, maxAmount: number = 150) {
+    if (id >= maxAmount) return;
     const currentListOfPokemons = this.pokemonOverviewList$.value;
     setTimeout(() => {
       this.getPokemonData(id + 1);
