@@ -4,6 +4,7 @@ import { PokeApiLoaderService } from '../service/poke-api-loader.service';
 import { CardComponent } from '../card/card.component';
 import { CommonModule } from '@angular/common';
 import { LightboxComponent } from '../lightbox/lightbox.component';
+import { LightboxService } from '../lightbox/lightbox-box-content/lightbox-service/lightbox.service';
 
 
 
@@ -24,7 +25,7 @@ interface type {
 })
 
 export class MainSiteComponent {
-  constructor(public api: PokeApiLoaderService) { }
+  constructor(public api: PokeApiLoaderService, public lightboxService: LightboxService) { }
 
   renderMax: number = 40;
   addAmountOfRenderMax: number = 10;
@@ -45,6 +46,12 @@ export class MainSiteComponent {
       this.renderMax = currentScrollScore ? this.renderMax += this.addAmountOfRenderMax : this.renderMax;
     }
   }
+
+
+  openLightbox(obj: any) {
+    this.lightboxService.openLightbox(obj);
+  }
+
 
   hasScrollbar(): boolean {
     return document.body.scrollHeight > 0;
