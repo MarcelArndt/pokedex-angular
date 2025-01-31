@@ -5,13 +5,14 @@ import { CardComponent } from '../card/card.component';
 import { CommonModule } from '@angular/common';
 import { LightboxComponent } from '../lightbox/lightbox.component';
 import { LightboxService } from '../lightbox/lightbox-box-content/lightbox-service/lightbox.service';
+import { PokeLoaderClockComponent } from '../poke-loader-clock/poke-loader-clock.component';
 
 
 
 
 interface type {
-  slot?: number; // Optional, da nicht jedes Objekt einen `slot` hat
-  type?: {       // Optional, da nicht jedes Objekt einen `type` hat
+  slot?: number;
+  type?: {
     name: string;
     url: string;
   };
@@ -19,7 +20,7 @@ interface type {
 
 @Component({
   selector: 'app-main-site',
-  imports: [HeaderComponent, CardComponent, CommonModule, LightboxComponent],
+  imports: [HeaderComponent, CardComponent, CommonModule, LightboxComponent, PokeLoaderClockComponent],
   templateUrl: './main-site.component.html',
   styleUrl: './main-site.component.scss'
 })
@@ -57,7 +58,7 @@ export class MainSiteComponent {
 
   async ngOnInit() {
     await this.api.pullOverview();
-    await this.api.recursivelyPokeloader(0, 0, 250);
+    await this.api.recursivelyPokeloader(0, 0, 1012);
   }
 
   trackByFlag(index: number, pokemon: any): any {

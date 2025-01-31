@@ -11,6 +11,8 @@ export class PokeApiLoaderService {
   public pokemonOverviewList$ = new BehaviorSubject<any[]>([]);
   public pokeminInTeam: string[] = [];
   public pokeminInFavorite: string[] = [];
+  public maxAmount?: number;
+  public currentNumber?: number;
 
   ////  --- manage Api ---   ///
   async pullOverview(maxAmount: number = 1011) {
@@ -60,11 +62,13 @@ export class PokeApiLoaderService {
 
   async recursivelyPokeloader(timer: number = 1000, id: number = 0, maxAmount: number = 150) {
     if (id >= maxAmount) return;
+    this.maxAmount = maxAmount;
     const currentListOfPokemons = this.pokemonOverviewList$.value;
     setTimeout(() => {
       this.getPokemonData(id + 1);
       this.pokemonOverviewList$.next([...currentListOfPokemons]);
       if (id <= currentListOfPokemons.length) {
+        this.currentNumber = id + 1;
         this.recursivelyPokeloader(timer, id + 1, maxAmount);
       }
     }, timer);
