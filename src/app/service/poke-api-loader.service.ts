@@ -52,7 +52,6 @@ export class PokeApiLoaderService {
       const pokedataPackages = { ...datasetOne, ...datasetTwo };
       pokedataPackages.isIsFavorite = this.checkIdInArray(this.pokeminInFavorite, pokedataPackages.id);
       pokedataPackages.isIsTeam = this.checkIdInArray(this.pokeminInTeam, pokedataPackages.id);
-      //console.log(pokedataPackages);
       return pokedataPackages
     } catch (error) {
       console.error(error);
@@ -66,7 +65,7 @@ export class PokeApiLoaderService {
       this.getPokemonData(id + 1);
       this.pokemonOverviewList$.next([...currentListOfPokemons]);
       if (id <= currentListOfPokemons.length) {
-        this.recursivelyPokeloader(timer, id + 1);
+        this.recursivelyPokeloader(timer, id + 1, maxAmount);
       }
     }, timer);
   }

@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
+import { PokeApiLoaderService } from '../../../service/poke-api-loader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LightboxService {
 
-  constructor() { }
+  constructor(public api: PokeApiLoaderService) { }
 
   showLightBox = false;
   pokemonDetails: any;
   lightboxClass = 'init';
+  pokeId?: number;
 
   closeLightbox() {
     this.lightboxClass = 'closeLightbox';
     this.showLightBox = false;
   }
 
-  openLightbox(pokemon: any) {
+  openLightbox(pokemonId: number) {
+    this.api.pokemonOverviewList$.subscribe(data => {
+      this.pokemonDetails = data[pokemonId];
+    });
+    this.pokeId = pokemonId;
     this.lightboxClass = 'openLightbox';
-    this.pokemonDetails = pokemon;
     this.showLightBox = true;
-    console.log(pokemon);
   }
 
 }

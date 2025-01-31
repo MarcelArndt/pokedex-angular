@@ -47,11 +47,9 @@ export class MainSiteComponent {
     }
   }
 
-
-  openLightbox(obj: any) {
-    this.lightboxService.openLightbox(obj);
+  openLightbox(id: number) {
+    this.lightboxService.openLightbox(id);
   }
-
 
   hasScrollbar(): boolean {
     return document.body.scrollHeight > 0;
@@ -59,7 +57,7 @@ export class MainSiteComponent {
 
   async ngOnInit() {
     await this.api.pullOverview();
-    await this.api.recursivelyPokeloader(550, 0);
+    await this.api.recursivelyPokeloader(0, 0, 250);
   }
 
   trackByFlag(index: number, pokemon: any): any {
