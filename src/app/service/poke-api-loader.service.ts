@@ -50,8 +50,8 @@ export class PokeApiLoaderService {
       const datasetOne = await responseOne.json();
       const datasetTwo = await responseTwo.json();
       const pokedataPackages = { ...datasetOne, ...datasetTwo };
-      pokedataPackages.isIsFavorite = this.checkIdInArray(this.pokeminInFavorite, pokedataPackages.id.toString());
-      pokedataPackages.isIsTeam = this.checkIdInArray(this.pokeminInTeam, pokedataPackages.id.toString());
+      pokedataPackages.isIsFavorite = this.checkIdInArray(this.pokeminInFavorite, pokedataPackages.id);
+      pokedataPackages.isIsTeam = this.checkIdInArray(this.pokeminInTeam, pokedataPackages.id);
       //console.log(pokedataPackages);
       return pokedataPackages
     } catch (error) {
@@ -75,8 +75,10 @@ export class PokeApiLoaderService {
     return this.pokemonOverviewList$.asObservable();
   }
 
-  checkIdInArray(array: string[], id: string) {
-    return array.includes(id);
+  checkIdInArray(array: string[], id: number) {
+    let pokeminId = id - 1
+    let string = pokeminId.toString();
+    return array.includes(string);
   }
 
   ////  --- manage LocalStorage ---   ///

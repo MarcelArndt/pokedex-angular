@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { PokeApiLoaderService } from '../service/poke-api-loader.service';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
+
 @Component({
   selector: 'app-card',
   imports: [CommonModule, IconComponent],
@@ -11,29 +12,31 @@ import { IconComponent } from '../icon/icon.component';
 export class CardComponent {
   constructor(public api: PokeApiLoaderService) { }
   @Input() id: number = 0;
-  @Input() details: any = {}
+  pokemonDetails: any = {}
   idString?: string;
   types?: string[];
   firstColor?: string;
   secondColor?: string;
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.api.pokemonOverviewList$.subscribe(data => {
+      this.pokemonDetails = data;
+    });
     this.pickColorByType();
     this.renderIdString();
-    //console.log(this.details)
   }
 
   renderIdString() {
-    let string = this.id.toString();
+    let pokeId = this.id + 1;
+    let string = pokeId.toString();
     for (let i = string.length; i < 3; i++) {
       string = '0' + string;
     }
-    this.idString = string;
-    this.details.idString = string;
+    this.pokemonDetails[this.id].idString = string;
   }
 
   pickColorByType() {
-    switch (this.details.types[0].type.name) {
+    switch (this.pokemonDetails[this.id].types[0].type.name) {
       case 'grass': this.firstColor = '#86e1c3', this.secondColor = '#1ab581'; break;
       case 'fire': this.firstColor = '#EAC097', this.secondColor = '#C60606'; break;
       case 'fighting': this.firstColor = '#FFB4AD', this.secondColor = '#9D183B'; break;
@@ -57,8 +60,8 @@ export class CardComponent {
   }
 
   getGradient(): string {
-    this.details.firstColor = this.firstColor;
-    this.details.secondColor = this.secondColor;
+    this.pokemonDetails[this.id].firstColor = this.firstColor;
+    this.pokemonDetails[this.id].secondColor = this.secondColor;
     return `linear-gradient(-200deg, ${this.firstColor}, ${this.secondColor})`;
   }
 
@@ -67,27 +70,28 @@ export class CardComponent {
   }
 
   getIsTeam(): string {
-    const color = this.details.isIsTeam ? '#E40004' : '#fff';
+    const color = this.pokemonDetails[this.id].isIsTeam ? '#E40004' : '#fff';
     return color;
   }
 
   getIsFavorite(): string {
-    const color = this.details.isIsFavorite ? '#FF8800' : '#fff';
+    const color = this.pokemonDetails[this.id].isIsFavorite ? '#FF8800' : '#fff';
     return color;
   }
 
   changeTeam() {
-    this.details.isIsTeam = !this.details.isIsTeam;
-    this.api.switchPokemonHandler(this.id.toString(), 'team', this.details.isIsTeam);
+    console.log(this.id)
+    this.pokemonDetails[this.id].isIsTeam = !this.pokemonDetails[this.id].isIsTeam;
+    this.api.switchPokemonHandler(this.id.toString(), 'team', this.pokemonDetails[this.id].isIsTeam);
   }
 
   changeFavorite() {
-    this.details.isIsFavorite = !this.details.isIsFavorite;
-    this.api.switchPokemonHandler(this.id.toString(), 'favorite', this.details.isIsFavorite);
+    this.pokemonDetails[this.id].isIsFavorite = !this.pokemonDetails[this.id].isIsFavorite;
+    this.api.switchPokemonHandler(this.id.toString(), 'favorite', this.pokemonDetails[this.id].isIsFavorite);
   }
 
   playSound() {
-    const audio = new Audio(this.details.cries.latest);
+    const audio = new Audio(this.pokemonDetails[this.id].cries.latest);
     audio.volume = 0.25;
     audio.currentTime = 0;
     audio.play();
