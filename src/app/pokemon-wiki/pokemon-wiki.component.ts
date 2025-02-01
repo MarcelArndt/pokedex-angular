@@ -12,22 +12,20 @@ import { StatsComponent } from './stats/stats.component';
 })
 export class PokemonWikiComponent {
   constructor(public wiki: WikiServiceService) { }
-  currentNavi?: string = 'overview';
-  previousNavi?: string = 'off';
+  currentNavi: string = 'overview';
+  previousNavi: string = 'off';
 
-  getNaviClass(naviState: string) {
-    let newClass = 'off';
-    if (this.currentNavi == naviState && this.previousNavi != this.currentNavi) {
-      newClass = 'show';
-    }
-    if (this.previousNavi == naviState) {
-      newClass = 'hidden';
-    }
-    return newClass;
+  getNaviClass(naviState: string): { [className: string]: boolean } {
+    return {
+      'show': this.currentNavi === naviState && this.previousNavi !== this.currentNavi,
+      'hidden': this.previousNavi === naviState,
+      'off': this.currentNavi !== naviState && this.previousNavi !== naviState,
+      'init': naviState == 'overview' && this.currentNavi == 'overview' && this.previousNavi == 'off'
+    };
   }
 
   switchToNavi(newNavi: string) {
-    this.previousNavi = this.currentNavi != newNavi ? this.currentNavi : this.previousNavi;
+    this.previousNavi = this.currentNavi !== newNavi ? this.currentNavi : this.previousNavi;
     this.currentNavi = newNavi;
   }
 

@@ -7,14 +7,25 @@ export class WikiServiceService {
 
   constructor() { }
   id?: number;
-  currentNaviState: string = 'overview';
+  currentNavi: string = 'overview';
+  previousNavi: string = 'off';
 
   changeId(id: number) {
     this.id = id
   }
 
-  changeNavigation(router: string) {
-    this.currentNaviState = router.length > 0 ? router : this.currentNaviState;
+  getNaviClass(naviState: string): { [className: string]: boolean } {
+    return {
+      'show': this.currentNavi === naviState && this.previousNavi !== this.currentNavi,
+      'hidden': this.previousNavi === naviState,
+      'off': this.currentNavi !== naviState && this.previousNavi !== naviState,
+      'init': naviState == 'overview' && this.currentNavi == 'overview' && this.previousNavi == 'off'
+    };
+  }
+
+  switchToNavi(newNavi: string) {
+    this.previousNavi = this.currentNavi !== newNavi ? this.currentNavi : this.previousNavi;
+    this.currentNavi = newNavi;
   }
 
 
