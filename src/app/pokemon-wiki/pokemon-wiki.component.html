@@ -1,0 +1,16 @@
+<section class="main-wrapper">
+    <nav class="wiki-navi">
+        <ul>
+            <li (click)="switchToNavi('overview')">Overview</li>
+            <li (click)="switchToNavi('stats')">Stats</li>
+            <li (click)="switchToNavi('evolving')">Evolving</li>
+        </ul>
+    </nav>
+
+    <div class="content-Wrapper">
+        <app-lore class="container"></app-lore>
+        <app-stats class="container"></app-stats>
+    </div>
+
+
+</section>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PokeLoaderClockComponent } from './poke-loader-clock.component';
+import { PokemonWikiComponent } from './pokemon-wiki.component';
 
-describe('PokeLoaderClockComponent', () => {
-  let component: PokeLoaderClockComponent;
-  let fixture: ComponentFixture<PokeLoaderClockComponent>;
+describe('PokemonWikiComponent', () => {
+  let component: PokemonWikiComponent;
+  let fixture: ComponentFixture<PokemonWikiComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PokeLoaderClockComponent]
+      imports: [PokemonWikiComponent]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(PokeLoaderClockComponent);
+    fixture = TestBed.createComponent(PokemonWikiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

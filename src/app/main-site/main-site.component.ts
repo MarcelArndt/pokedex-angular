@@ -6,9 +6,7 @@ import { CommonModule } from '@angular/common';
 import { LightboxComponent } from '../lightbox/lightbox.component';
 import { LightboxService } from '../lightbox/lightbox-box-content/lightbox-service/lightbox.service';
 import { PokeLoaderClockComponent } from '../poke-loader-clock/poke-loader-clock.component';
-
-
-
+import { WikiServiceService } from '../pokemon-wiki/service/wiki-service.service';
 
 interface type {
   slot?: number;
@@ -26,7 +24,7 @@ interface type {
 })
 
 export class MainSiteComponent {
-  constructor(public api: PokeApiLoaderService, public lightboxService: LightboxService) { }
+  constructor(public api: PokeApiLoaderService, public lightboxService: LightboxService, public wiki: WikiServiceService) { }
 
   renderMax: number = 40;
   addAmountOfRenderMax: number = 10;
@@ -50,6 +48,7 @@ export class MainSiteComponent {
 
   openLightbox(id: number) {
     this.lightboxService.openLightbox(id);
+    this.wiki.changeId(id);
   }
 
   hasScrollbar(): boolean {

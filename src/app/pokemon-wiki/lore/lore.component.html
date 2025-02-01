@@ -1,0 +1,8 @@
+<div class="lore-wrapper">
+    <h4>Typ:</h4>
+    <p>{{api.pokemonOverviewList$.value[wiki.id!].genera[4].genus}}</p>
+    <h4>Pokédex Einträge:</h4>
+    <p *ngFor="let text of germanLore; let i = index">
+        {{ text }}
+    </p>
+</div>

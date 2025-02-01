@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { LightboxService } from './lightbox-service/lightbox.service';
 import { IconComponent } from '../../icon/icon.component';
 import { PokeApiLoaderService } from '../../service/poke-api-loader.service';
+import { PokemonWikiComponent } from '../../pokemon-wiki/pokemon-wiki.component';
 
 @Component({
   standalone: true,
   selector: 'lightbox-box-content',
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, PokemonWikiComponent],
   templateUrl: './lightbox-box-content.component.html',
   styleUrls: ['./lightbox-box-content.component.scss', './../animations.scss']
 })
@@ -47,5 +48,9 @@ export class LightboxBoxContentComponent {
 
   stopPropagation(event: Event) {
     event.stopPropagation();
+  }
+
+  get pokeId() {
+    return this.service.pokeId! + 1;
   }
 }
