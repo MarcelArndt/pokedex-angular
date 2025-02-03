@@ -22,11 +22,11 @@ export class CardComponent {
     this.api.pokemonOverviewList$.subscribe(data => {
       this.pokemonDetails = data;
     });
-    this.pickColorByType();
-    this.renderIdString();
+    await this.pickColorByType();
+    await this.renderIdString();
   }
 
-  renderIdString() {
+  async renderIdString() {
     let pokeId = this.id + 1;
     let string = pokeId.toString();
     for (let i = string.length; i < 3; i++) {
@@ -35,8 +35,8 @@ export class CardComponent {
     this.pokemonDetails[this.id].idString = string;
   }
 
-  pickColorByType() {
-    switch (this.pokemonDetails[this.id].types[0].type.name) {
+  async pickColorByType() {
+    switch (await this.pokemonDetails[this.id].types[0].type.name) {
       case 'grass': this.firstColor = '#86e1c3', this.secondColor = '#1ab581'; break;
       case 'fire': this.firstColor = '#EAC097', this.secondColor = '#C60606'; break;
       case 'fighting': this.firstColor = '#FFB4AD', this.secondColor = '#9D183B'; break;
